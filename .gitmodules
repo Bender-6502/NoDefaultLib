@@ -1,0 +1,3 @@
+[submodule "NoDefaultLibLibraries/googletest"]
+	path = NoDefaultLibLibraries/googletest
+	url = https://github.com/google/googletest.git

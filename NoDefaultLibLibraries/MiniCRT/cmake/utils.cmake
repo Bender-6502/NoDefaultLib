@@ -1,0 +1,33 @@
+
+macro(config_compiler_and_linker)
+  if (CMAKE_CXX_COMPILER_ID MATCHES "MSVC|Clang")
+
+    foreach (flag_var
+             CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
+             CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
+             CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
+             CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
+
+        string(REPLACE "/MD" "-MT" ${flag_var} "${${flag_var}}")
+        string(REPLACE "-D_DLL" "" ${flag_var} "${${flag_var}}")
+        string(REPLACE "/EHsc" "" ${flag_var} "${${flag_var}}")
+
+    endforeach()
+  
+    SET(CMAKE_CXX_FLAGS  "/GS- /GL /W3 /Gy /Zi /Gm- /sdl- /WX- /Gd /O1 /std:c++20")
+    SET(CMAKE_CXX_FLAGS_DEBUG  ${CMAKE_CXX_FLAGS})
+    SET(CMAKE_CXX_FLAGS_RELEASE  ${CMAKE_CXX_FLAGS})
+    SET(CMAKE_CXX_FLAGS_MINSIZEREL  ${CMAKE_CXX_FLAGS})
+    SET(CMAKE_CXX_FLAGS_RELWITHDEBINFO  ${CMAKE_CXX_FLAGS})  
+    
+    set(CMAKE_CXX_STANDARD 20)
+
+    message (STATUS "CMAKE_CXX_FLAGS: " ${CMAKE_CXX_FLAGS})
+    message (STATUS "CMAKE_CXX_FLAGS_DEBUG: " ${CMAKE_CXX_FLAGS_DEBUG})
+    message (STATUS "CMAKE_CXX_FLAGS_RELEASE: " ${CMAKE_CXX_FLAGS_RELEASE})
+    message (STATUS "CMAKE_CXX_FLAGS_MINSIZEREL: " ${CMAKE_CXX_FLAGS_MINSIZEREL})
+    message (STATUS "CMAKE_CXX_FLAGS_RELWITHDEBINFO: " ${CMAKE_CXX_FLAGS_RELWITHDEBINFO})
+    message (STATUS "CMAKE_EXE_LINKER_FLAGS: " ${CMAKE_EXE_LINKER_FLAGS})
+
+  endif()
+endmacro()
