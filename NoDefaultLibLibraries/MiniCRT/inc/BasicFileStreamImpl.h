@@ -38,7 +38,7 @@ namespace MiniCRT
     /// typically used for appending to a file, where you want 
     /// to write new data at the end of the existing contents.
     /// </summary>
-    void MoveToEnd(void* file);
+    void SeekToEnd(void* file);
 
     /// <summary>
     /// Read data from the specified file into the provided buffer.
@@ -49,5 +49,25 @@ namespace MiniCRT
     /// Write data from the provided buffer to the specified file.
     /// </summary>
     bool WriteFile(void* file, const void* lpBuffer, const unsigned long nNumberOfBytesToWrite, unsigned long* lpNumberOfBytesWritten, unsigned long* lastError);
+
+    /// <summary>
+    /// Returns the current position of the file pointer, which is 
+    /// the offset in bytes from the beginning of the file. This 
+    /// can be used to determine how much data has been read or 
+    /// written, or to save the current position for later use.
+    /// </summary>
+    /// <param name="file"></param>
+    /// <returns></returns>
+    unsigned long Tell(void* file);
+
+    /// <summary>
+    /// Sets the position of the file pointer to pos. The way parameter specifies how the pos value is interpreted, and can be one of the following:
+    /// 
+    /// </summary>
+    /// <param name="file"></param>
+    /// <param name="pos"></param>
+    /// <param name="way"></param>
+    void Seek(void* file, size_t pos, int way);
+
   };
 }

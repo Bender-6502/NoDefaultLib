@@ -34,6 +34,15 @@ namespace MiniCRT
           return CREATE_ALWAYS;
         return 0;
       }
+
+      unsigned long GetSeekMethod(const int seek)
+      {
+        if (seek == static_cast<int>(BasicFileStream<char>::SeekDirection::End))
+          return FILE_END;
+        if (seek == static_cast<int>(BasicFileStream<char>::SeekDirection::Cur))
+          return FILE_CURRENT;
+        return FILE_BEGIN;
+      }
     }
 
     void* Open(const char* filename, const unsigned long accessMode, unsigned long* lastError)
@@ -64,12 +73,6 @@ namespace MiniCRT
         ::CloseHandle(handle);
     }
 
-    void MoveToEnd(void* file)
-    {
-      if (file != nullptr)
-        ::SetFilePointer(file, 0, nullptr, FILE_END);
-    }
-
     bool ReadFile(void* file, void* lpBuffer, const unsigned long nNumberOfBytesToRead, unsigned long* lpNumberOfBytesRead, unsigned long* lastError)
     {
       if (!::ReadFile(file, lpBuffer, static_cast<DWORD>(nNumberOfBytesToRead), lpNumberOfBytesRead, nullptr))
@@ -98,6 +101,28 @@ namespace MiniCRT
         return false;
       }
       return true;
+    }
+
+    unsigned long Tell(void* file)
+    {
+      if (file == nullptr)
+        return -1;
+      auto pos = ::SetFilePointer(file, 0, nullptr, FILE_CURRENT);
+      if (pos == INVALID_SET_FILE_POINTER)
+        return -1;
+      return pos;
+    }
+
+    void Seek(void* file, size_t pos, int way)
+    {
+      if (file != nullptr)
+        ::SetFilePointer(file, static_cast<LONG>(pos), nullptr, GetSeekMethod(way));
+    }
+
+    void SeekToEnd(void* file)
+    {
+      if (file != nullptr)
+        ::SetFilePointer(file, 0, nullptr, FILE_END);
     }
   }
 }

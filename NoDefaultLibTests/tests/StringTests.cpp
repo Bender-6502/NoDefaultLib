@@ -89,3 +89,71 @@ TEST(StringTests, NullptrCompare)
 	MiniCRT::String str = "Hello";
 	EXPECT_FALSE(str.Compare(nullptr));
 }
+
+TEST(StringTests, ConcatenationWithEmptyString) 
+{
+	MiniCRT::String str1 = "Hello";
+	MiniCRT::String str2;
+	MiniCRT::String result = str1 + str2;
+	EXPECT_EQ(result, "Hello");
+	result = str2 + str1;
+	EXPECT_EQ(result, "Hello");
+}
+
+TEST(StringTests, ConcatenationWithNullptr) 
+{
+	MiniCRT::String str1 = "Hello";
+	MiniCRT::String result = str1 + static_cast<char*>(nullptr);
+	EXPECT_EQ(result, "Hello");
+	result = static_cast<char*>(nullptr) + str1;
+	EXPECT_EQ(result, "Hello");
+}
+
+TEST(StringTests, SubStr)
+{
+	MiniCRT::String str = "Hello, World!";
+	MiniCRT::String subStr = str.SubStr(7);
+  EXPECT_EQ(subStr, "World!");
+}
+
+TEST(StringTests, SubStrOutOfBounds)
+{
+	MiniCRT::String str = "Hello";
+	MiniCRT::String subStr = str.SubStr(10);
+	EXPECT_EQ(subStr, "");
+}
+
+TEST(StringTests, SubStrEmptyString)
+{
+	MiniCRT::String str;
+	MiniCRT::String subStr = str.SubStr(0);
+	EXPECT_EQ(subStr, "");
+}
+
+TEST(StringTests, SubStrNegativeIndex)
+{
+	MiniCRT::String str = "Hello";
+	MiniCRT::String subStr = str.SubStr(-1);
+	EXPECT_EQ(subStr, "");
+}
+
+TEST(StringTests, SubStrLengthExceeds)
+{
+	MiniCRT::String str = "Hello";
+	MiniCRT::String subStr = str.SubStr(3, 10);
+	EXPECT_EQ(subStr, "lo");
+}
+
+TEST(StringTests, SubStrZeroLength)
+{
+	MiniCRT::String str = "Hello";
+	MiniCRT::String subStr = str.SubStr(2, 0);
+	EXPECT_EQ(subStr, "");
+}	
+
+TEST(StringTests, SubStrFullLength)
+{
+	MiniCRT::String str = "Hello";
+	MiniCRT::String subStr = str.SubStr(0, 5);
+	EXPECT_EQ(subStr, "Hello");
+}

@@ -54,6 +54,7 @@ TEST(FileStreamTests, AppendToFile)
     size_t bytesRead = file.Read(buffer, sizeof(buffer) - 1);
     buffer[bytesRead] = '\0'; // Null-terminate the buffer
     EXPECT_EQ(strcmp(buffer, "Hello, World!"), 0);
+    EXPECT_EQ(file.Size(), strlen("Hello, World!"));
   }
   // Clean up
   MiniCRT::RemoveFile(filename);
