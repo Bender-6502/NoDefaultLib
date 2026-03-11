@@ -12,7 +12,7 @@ namespace MiniCRT
     /// <param name="length"></param>
     /// <param name="typeSize"></param>
     /// <returns></returns>
-    void* Allocate(size_t length, size_t typeSize);
+    void* Allocate(size_t length, size_t typeSize = 1);
 
     /// <summary>
     /// Deallocate memory from the heap previously allocated with Allocate.

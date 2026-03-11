@@ -1,27 +1,36 @@
 #include "MiniCRT/String.h"
 #include "MiniCRT/FileStream.h"
 #include "MiniCRT/FileSystem.h"
+#include "MiniCRT/Thread.h"
+#include "MiniCRT/Mutex.h"
 
 #include <Windows.h>
 
+struct ThreadHandler
+{
+  MiniCRT::Mutex* mutex;
+  const char* message;
+};
+
+void ThreadedMessage(void* message)
+{
+  MiniCRT::LockGuard lock(*static_cast<ThreadHandler*>(message)->mutex);
+  MessageBoxA(0, static_cast<ThreadHandler*>(message)->message, "NoDefaultLib", MB_OK);
+}
+
 // Entry point for Windows applications
-
-// Minimum requirements
-// String class
-// Vector or List class
-// File I/O
-// Threading
-// Mutexes
-// Config Parser like yaml or json
-
 int main()
 {
   // String test
   MiniCRT::String message;
   message.Assign("Hello");
   message.Append(", World!");
-  if (MiniCRT::String("Hello, World!") == message)
-    MessageBoxA(0, message.c_str(), "SetupWorkshop", MB_OK);
+
+  MiniCRT::Mutex mutex;
+  ThreadHandler threadHandler1{&mutex, message.c_str() };
+  MiniCRT::Thread th(&ThreadedMessage, &threadHandler1);
+  ThreadHandler threadHandler2{ &mutex, "Goodbye, world!" };
+  ThreadedMessage(&threadHandler2);
 
   // File I/O test
   MiniCRT::CurrentDirectory("..\\x64\\Release");
@@ -31,5 +40,6 @@ int main()
     const char* content = "This is a test file.";
     file.Write(content, MiniCRT::StringLength(content));
   }
+
   return 0;
 }

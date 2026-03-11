@@ -9,7 +9,7 @@ add_library (${PROJECT_NAME} STATIC
 	"src/BasicFileStreamImpl.cpp"
 	"src/BasicFileSystemImpl.cpp"
 	"src/BasicStringFunctionsImpl.cpp"
-)
+ "inc/BasicThread.h" "src/BasicThread.cpp" "MiniCRT/Thread.h" "inc/BasicMutex.h" "MiniCRT/Mutex.h" "src/BasicMutex.cpp")
 
 target_include_directories(${PROJECT_NAME} PUBLIC 
 	"inc"
