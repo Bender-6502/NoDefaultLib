@@ -69,5 +69,11 @@ namespace MiniCRT
     /// <param name="way"></param>
     void Seek(void* file, size_t pos, int way);
 
+    /// <summary>
+    /// Returns true if end of file reached
+    /// </summary>
+    /// <param name="lastError"></param>
+    /// <returns></returns>
+    bool Eof(void* file);
   };
 }

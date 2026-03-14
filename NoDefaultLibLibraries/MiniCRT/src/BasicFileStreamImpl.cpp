@@ -124,5 +124,14 @@ namespace MiniCRT
       if (file != nullptr)
         ::SetFilePointer(file, 0, nullptr, FILE_END);
     }
+
+    bool Eof(void* file)
+    {
+      auto pos = Tell(file);
+      SeekToEnd(file);
+      auto eof = pos == Tell(file);
+      Seek(file, pos, 0);
+      return eof;
+    }
   }
 }

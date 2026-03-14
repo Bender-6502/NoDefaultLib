@@ -8,7 +8,7 @@ namespace MiniCRT
   {
     void* Allocate(size_t length, size_t typeSize)
     {
-      return ::HeapAlloc(::GetProcessHeap(), 0, length * typeSize);
+      return ::HeapAlloc(::GetProcessHeap(), HEAP_ZERO_MEMORY, length * typeSize);
     }
 
     void Deallocate(void* ptr)

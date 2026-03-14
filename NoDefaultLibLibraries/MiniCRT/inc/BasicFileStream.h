@@ -152,6 +152,19 @@ namespace MiniCRT
       return bytesRead;
     }
 
+    int Get()
+    {
+      charT c = 0;
+      Get(c);
+      return c;
+    }
+
+    BasicFileStream& Get(charT& c)
+    {
+      Read(&c, 1);
+      return *this;
+    }
+
     /// <summary>
     /// Write data from the provided buffer to the file. The function 
     /// returns the number of characters written, which may be less than 
@@ -239,6 +252,11 @@ namespace MiniCRT
     operator bool() const
     {
       return m_file != nullptr;
+    }
+
+    bool Eof() const
+    {
+      return Impl::Eof(m_file);
     }
 
   private:

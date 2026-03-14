@@ -157,6 +157,11 @@ namespace MiniCRT
       }
     }
 
+    void Append(const charT& c)
+    {
+      Append(&c, 1);
+    }
+
     /// <summary>
     /// Append the specified string to the end of this string.
     /// </summary>
@@ -256,7 +261,7 @@ namespace MiniCRT
     /// <returns></returns>
     bool Compare(const charT* str) const
     {
-      return StringCompare(m_str, m_length, str, StringLength(str));
+      return str && StringCompare(m_str, m_length, str, StringLength(str));
     }
 
     /// <summary>
@@ -355,6 +360,14 @@ namespace MiniCRT
     return result;
   }
 
+  template <class charT, class Alloc = BasicStringAllocator<charT>>
+  inline BasicString<charT, Alloc> operator+(const BasicString<charT, Alloc>& lhs, const charT& rhs)
+  {
+    BasicString<charT, Alloc> result(lhs);
+    result.Append(rhs);
+    return result;
+  }
+
 
   template <class charT, class Alloc = BasicStringAllocator<charT>>
   inline BasicString<charT, Alloc>& operator+=(BasicString<charT, Alloc>& lhs, const BasicString<charT, Alloc>& rhs)
@@ -363,4 +376,10 @@ namespace MiniCRT
     return lhs;
   }
 
+  template <class charT, class Alloc = BasicStringAllocator<charT>>
+  inline BasicString<charT, Alloc>& operator+=(BasicString<charT, Alloc>& lhs, const charT& rhs)
+  {
+    lhs.Append(rhs);
+    return lhs;
+  }
 }

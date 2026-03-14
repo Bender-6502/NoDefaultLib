@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
+#include <iostream>
 #include "MiniCRT/FileStream.h"
 #include "MiniCRT/FileSystem.h"
+#include "MiniCRT/String.h"
 
 TEST(FileStreamTests, OpenNonExistentFile)
 {
@@ -58,4 +60,50 @@ TEST(FileStreamTests, AppendToFile)
   }
   // Clean up
   MiniCRT::RemoveFile(filename);
+}
+
+TEST(FileStreamTests, Getline)
+{
+  int testCount = 0;
+
+  const char* filename = "test_file.txt";
+  {
+    const char* should[] = {
+     "first\r\n",
+     "first second\r\n",
+     "first second third\r\n",
+     "first second third fourth\r\n",
+    };
+    
+    MiniCRT::FileStream file(filename, MiniCRT::FileStream::out | MiniCRT::FileStream::trunc);
+    for (const auto item : should)
+    {
+      file.Write(item, strlen(item));
+    }
+  }
+  {
+    const char* should[] = {
+      "first",
+      "first second",
+      "first second third",
+      "first second third fourth",
+    };
+
+    MiniCRT::FileStream file(filename, MiniCRT::FileStream::in);
+    while (!file.Eof())
+    {
+      for (const auto item : should)
+      {
+        MiniCRT::String str;
+        MiniCRT::Getline(file, str);
+        EXPECT_EQ(str, item);
+        std::cout << str.c_str() << std::endl;
+        testCount++;
+      }
+    }
+  }
+  // Clean up
+  //MiniCRT::RemoveFile(filename);
+
+  EXPECT_EQ(testCount, 4);
 }

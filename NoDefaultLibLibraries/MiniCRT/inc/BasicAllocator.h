@@ -3,7 +3,7 @@
 
 namespace MiniCRT
 {
-  template <class charT>
+  template <class T>
   class BasicAllocator
   {
   public:
@@ -12,15 +12,15 @@ namespace MiniCRT
     /// Allocate some memory on the heap. 
     /// <param name="length"></param>
     /// <returns></returns>
-    static charT* Allocate(size_t length)
+    static T* Allocate(size_t length)
     {
-      return static_cast<charT*>(Impl::Allocate(length, sizeof(charT)));
+      return static_cast<T*>(Impl::Allocate(length, sizeof(T)));
     }
 
     /// <summary>
     /// Deallocate memory from the heap previously allocated with Allocate.
     /// </summary>
-    static void Deallocate(charT* ptr)
+    static void Deallocate(T* ptr)
     {
       Impl::Deallocate(ptr);
     }
