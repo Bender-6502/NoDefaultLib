@@ -3,7 +3,7 @@
 
 namespace MiniCRT
 {
-  template<class T, class Alloc = BasicAllocator<BasicListNode<T>>>
+  template<class T, class Alloc = BasicListAllocator<BasicListNode<T>>>
   class List : public BasicList<T, Alloc>
   {
   public:

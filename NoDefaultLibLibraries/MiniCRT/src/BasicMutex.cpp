@@ -1,5 +1,4 @@
 #include "BasicMutex.h"
-#include "BasicAllocator.h"
 #include "../MiniCRT/Traits.h"
 
 #include <Windows.h>
@@ -7,7 +6,7 @@
 namespace MiniCRT
 {
   BasicMutex::BasicMutex()
-    : m_section(Impl::Allocate(sizeof(CRITICAL_SECTION)))
+    : m_section(new CRITICAL_SECTION)
   {
     InitializeCriticalSection(static_cast<LPCRITICAL_SECTION>(m_section));
   }
@@ -27,7 +26,7 @@ namespace MiniCRT
   BasicMutex::~BasicMutex()
   {
     DeleteCriticalSection(static_cast<LPCRITICAL_SECTION>(m_section));
-    Impl::Deallocate(m_section);
+    delete m_section;
   }
 
   void BasicMutex::Swap(BasicMutex& other)

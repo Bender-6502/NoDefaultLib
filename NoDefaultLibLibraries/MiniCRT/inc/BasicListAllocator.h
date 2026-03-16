@@ -1,10 +1,9 @@
 #pragma once
-#include "BasicAllocatorImpl.h"
 
 namespace MiniCRT
 {
   template <class T>
-  class BasicAllocator
+  class BasicListAllocator
   {
   public:
 
@@ -12,9 +11,9 @@ namespace MiniCRT
     /// Allocate some memory on the heap. 
     /// <param name="length"></param>
     /// <returns></returns>
-    static T* Allocate(size_t length)
+    static T* Allocate()
     {
-      return static_cast<T*>(Impl::Allocate(length, sizeof(T)));
+      return new T();
     }
 
     /// <summary>
@@ -22,7 +21,7 @@ namespace MiniCRT
     /// </summary>
     static void Deallocate(T* ptr)
     {
-      Impl::Deallocate(ptr);
+      delete ptr;
     }
   };
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BasicStringAllocator.h"
+#include "BasicListAllocator.h"
 #include "../MiniCRT/Traits.h"
 
 namespace MiniCRT
@@ -13,7 +13,7 @@ namespace MiniCRT
     BasicListNode* previous;
   };
 
-  template<class T, class Alloc = BasicAllocator<BasicListNode<T>>>
+  template<class T, class Alloc = BasicListAllocator<BasicListNode<T>>>
   class BasicList
   {
   public:
@@ -154,7 +154,7 @@ namespace MiniCRT
 
     void PushBack(const T& value)
     {
-      if (auto* node = Alloc::Allocate(1); node != nullptr)
+      if (auto* node = Alloc::Allocate(); node != nullptr)
       {
         node->value = value;
         if (m_head == nullptr)
@@ -221,7 +221,7 @@ namespace MiniCRT
 
     void PushFront(T&& value)
     {
-      if (auto* node = Alloc::Allocate(1); node != nullptr)
+      if (auto* node = Alloc::Allocate(); node != nullptr)
       {
         node->value = MiniCRT::Move(value);
         if (m_head == nullptr)

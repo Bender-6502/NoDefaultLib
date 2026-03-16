@@ -17,7 +17,7 @@ FetchContent_MakeAvailable(googletest)
 add_executable (${PROJECT_NAME}
 	"tests/StringTests.cpp"
 	"tests/FileStreamTests.cpp"
- "tests/ListTests.cpp")
+ "tests/ListTests.cpp" "tests/MemoryTests.cpp")
 
 target_link_libraries(${PROJECT_NAME} PUBLIC
     MiniCRT
